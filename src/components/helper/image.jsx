@@ -18,7 +18,7 @@ const ImageUpload = ({ maxImages = 5, singleImage = false, setImages, imagesDefa
     const formData = new FormData();
     formData.append('images', file);
     try {
-      const response = await fetch(`http://localhost:80/api/product-service/upload`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/product-service/upload`, {
         method: 'POST',
         body: formData,
         headers: {
