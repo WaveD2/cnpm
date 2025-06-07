@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: 'https://smashing-valid-jawfish.ngrok-free.app',
+  //https://smashing-valid-jawfish.ngrok-free.app
+  baseURL: 'http://localhost:80',
   timeout: 40000,
   headers: {
     "ngrok-skip-browser-warning": true,
