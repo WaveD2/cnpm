@@ -23,7 +23,7 @@ apiClient.interceptors.response.use(
     config._retryCount = config._retryCount || 0;
 
     // Nếu đã thử 3 lần, từ chối ngay lập tức
-    if (config._retryCount >= 3) {
+    if (config._retryCount >= 1) {
       return Promise.reject(error);
     }
 
