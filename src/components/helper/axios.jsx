@@ -1,7 +1,8 @@
 import axios from "axios";
 
+//http://localhost:80
 const apiClient = axios.create({
-  baseURL: 'http://localhost:80',
+  baseURL: import.meta.env.VITE_API_URL,
   timeout: 40000,
   headers: {
     "ngrok-skip-browser-warning": true,
