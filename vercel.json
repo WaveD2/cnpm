@@ -1,12 +1,19 @@
 {
+    "version": 2,
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
+      }
+    ],
     "headers": [
       {
-        "source": "/api/(.*)",
+        "source": "/(.*)",
         "headers": [
-          { "key": "Access-Control-Allow-Origin", "value": "https://cnpm-gamma.vercel.app" },
-          { "key": "Access-Control-Allow-Credentials", "value": "true" },
-          { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
-          { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+          {
+            "key": "Cache-Control",
+            "value": "max-age=0, s-maxage=86400, stale-while-revalidate"
+          }
         ]
       }
     ]
