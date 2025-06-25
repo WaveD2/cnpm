@@ -57,11 +57,11 @@ const OrderHistoryPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-gray-900 min-h-screen text-white py-12"
+      className="min-h-screen bg-white text-gray-800 py-12"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center">Lịch sử đơn hàng</h1>
-
+        <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-900">Lịch sử đơn hàng</h1>
+  
         {orders && orders.length > 0 ? (
           <AnimatePresence>
             {orders.map((order) => (
@@ -71,21 +71,21 @@ const OrderHistoryPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="bg-gray-800 rounded-xl p-6 mb-4 shadow-md hover:shadow-lg transition-shadow duration-300"
+                className="bg-gray-100 rounded-xl p-6 mb-4 shadow-md hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="text-lg font-semibold">Mã đơn hàng: {order._id}</h3>
-                    <p className="text-sm text-gray-400">
+                    <h3 className="text-lg font-semibold text-gray-800">Mã đơn hàng: {order._id}</h3>
+                    <p className="text-sm text-gray-500">
                       Ngày đặt: {new Date(order.createdAt).toLocaleDateString("vi-VN")}
                     </p>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-gray-500">
                       Trạng thái: {order.status === "pending" ? "Đang xử lý" : 
                                   order.status === "shipped" ? "Đang giao" : 
                                   order.status === "delivered" ? "Đã giao" : 
                                   order.status === "cancelled" ? "Đã hủy" : "Hoàn thành"}
                     </p>
-                    <p className="text-lg font-bold text-blue-400 mt-2">
+                    <p className="text-lg font-bold text-blue-600 mt-2">
                       Tổng cộng: {order.totalAmount.toLocaleString("vi-VN")} VND
                     </p>
                   </div>
@@ -96,7 +96,7 @@ const OrderHistoryPage = () => {
                         whileTap={{ scale: 0.95 }}
                         className="p-2 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors"
                       >
-                        <FaEye className="h-5 w-5" />
+                        <FaEye className="h-5 w-5 text-white" />
                       </motion.button>
                     </Link>
                     {order.status === "pending" && (
@@ -106,15 +106,15 @@ const OrderHistoryPage = () => {
                         onClick={() => handleCancelOrder(order._id)}
                         className="p-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
                       >
-                        <FaTimes className="h-5 w-5" />
+                        <FaTimes className="h-5 w-5 text-white" />
                       </motion.button>
                     )}
                   </div>
                 </div>
                 <div className="mt-4">
-                  <h4 className="text-sm font-medium">Sản phẩm:</h4>
+                  <h4 className="text-sm font-medium text-gray-700">Sản phẩm:</h4>
                   {order.items.map((item) => (
-                    <div key={item._id} className="flex justify-between text-sm text-gray-400 mt-2">
+                    <div key={item._id} className="flex justify-between text-sm text-gray-500 mt-2">
                       <span>{item.name} (x{item.quantity})</span>
                       <span>{item.price.toLocaleString("vi-VN")} VND</span>
                     </div>
@@ -131,7 +131,7 @@ const OrderHistoryPage = () => {
             className="text-center py-16"
           >
             <FaShoppingCart className="mx-auto h-16 w-16 text-gray-400" />
-            <p className="text-lg mt-4">Bạn chưa có đơn hàng nào</p>
+            <p className="text-lg mt-4 text-gray-600">Bạn chưa có đơn hàng nào</p>
             <Link to="/store">
               <motion.button
                 whileHover={{ scale: 1.05 }}

@@ -22,7 +22,7 @@ function ManageUserIndividual() {
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({});
-  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -32,7 +32,7 @@ function ManageUserIndividual() {
         const userData = response.data;
         setUser({
           ...userData,
-          isActive: userData.isActive !== undefined ? userData.isActive : true,  
+          isActive: userData.isActive !== undefined ? userData.isActive : true,
         });
         setAvatarPreview(userData.avatar || "");
       } catch (error) {
@@ -56,13 +56,11 @@ function ManageUserIndividual() {
     setFormErrors((prev) => ({ ...prev, role: "" }));
   };
 
-  // Handle isActive toggle
   const handleIsActiveToggle = () => {
     setUser((prev) => ({ ...prev, isActive: !prev.isActive }));
     setFormErrors((prev) => ({ ...prev, isActive: "" }));
   };
 
-  // Validate form
   const validateForm = () => {
     const errors = {};
     if (!user.name?.trim()) errors.name = "Tên là bắt buộc";
@@ -75,7 +73,6 @@ function ManageUserIndividual() {
     return errors;
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validateForm();
@@ -96,7 +93,7 @@ function ManageUserIndividual() {
       };
       await adminUserUpdate(id, updatedUser);
       showToast("Cập nhật người dùng thành công", "success");
-    } catch (error) { 
+    } catch (error) {
       showToast(error.response?.data?.message || "Không thể cập nhật người dùng", "error");
       console.error("Update user error:", error);
     } finally {
@@ -104,9 +101,8 @@ function ManageUserIndividual() {
     }
   };
 
-  // Handle avatar change
-  const handleAvatarChange = (images) => {
-    setAvatarPreview(images[0] || "");
+  const handleAvatarChange = (image) => {
+    setAvatarPreview(image || "");
     setFormErrors((prev) => ({ ...prev, avatar: "" }));
   };
 
@@ -180,7 +176,7 @@ function ManageUserIndividual() {
               name="phone"
               value={user.phone || ""}
               onChange={handleInputChange}
-              className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md text-gray-600 cursor-not-allowed"
+              className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md text-gray-600"
             />
           </div>
 
@@ -237,10 +233,12 @@ function ManageUserIndividual() {
               <UploadCloud className="w-6 h-6 text-blue-400" />
               <ImageUpload
                 maxImages={1}
-                imagesDefault={[avatarPreview]}
+                singleImage={true}
+                images={avatarPreview}
                 setImages={handleAvatarChange}
               />
             </div>
+            {formErrors.avatar && <p className="text-red-500 text-xs mt-1">{formErrors.avatar}</p>}
           </div>
         </div>
 
@@ -254,8 +252,8 @@ function ManageUserIndividual() {
               isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:bg-green-600"
             }`}
           >
-              <Save className="w-5 h-5" />
-              <span>{isSubmitting ? "Đang cập nhật..." : "Cập nhật"}</span>
+            <Save className="w-5 h-5" />
+            <span>{isSubmitting ? "Đang cập nhật..." : "Cập nhật"}</span>
           </motion.button>
         </div>
       </form>

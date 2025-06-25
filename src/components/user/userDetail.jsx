@@ -58,7 +58,6 @@ const UserDetail = () => {
         email : form.email,
         newPassword 
       });
-     console.log("res:::", res.data?.data.success, res.data.success);
      if(res.data.success){
       showToast(res?.data.message);
      }

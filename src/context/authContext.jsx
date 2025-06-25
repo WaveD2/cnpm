@@ -218,9 +218,9 @@ export const AuthProvider = ({ children }) => {
       const res = await apiClient.put(`/api/user-service/${id}`, userData, {
         withCredentials: true
       });
-      // Update current user if the updated user is the current user
-      if (user && user.id === id) {
-        setUser(res.data.user);
+      
+      if (user && user?._id === id) {
+        setUser(res.data.data);
       }
       return res.data;
     } catch (err) {

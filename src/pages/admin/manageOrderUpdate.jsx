@@ -72,23 +72,23 @@ const OrderDetailPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className=" min-h-screen text-white py-12"
+      className="min-h-screen bg-white text-gray-800 py-12"
     >
-      <div className="">
-        <h1 className="text-3xl md:text-4xl font-bold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+      <div className="container mx-auto px-4">
+        <h1 className="text-3xl md:text-4xl font-bold mb-10 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
           Chi Tiết Đơn Hàng #{order._id.slice(-6)}
         </h1>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+  
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Thông tin đơn hàng */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-3 bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-700/50"
+            className="lg:col-span-3 bg-white rounded-2xl p-8 shadow-md border border-gray-200"
           >
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-blue-300">Thông Tin Đơn Hàng</h2>
+              <h2 className="text-2xl font-semibold text-gray-900">Thông Tin Đơn Hàng</h2>
               <div className="flex items-center space-x-2">
                 <span
                   className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
@@ -99,13 +99,13 @@ const OrderDetailPage = () => {
                 </span>
                 <button
                   onClick={() => setIsEditing(!isEditing)}
-                  className="p-2 text-gray-300 hover:text-blue-400 transition-colors"
+                  className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
                 >
                   <FaEdit />
                 </button>
               </div>
             </div>
-
+  
             {/* Chỉnh sửa trạng thái */}
             <AnimatePresence>
               {isEditing && (
@@ -116,12 +116,12 @@ const OrderDetailPage = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-6"
                 >
-                  <label className="block text-sm font-medium mb-2 text-gray-200">Cập nhật trạng thái</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">Cập nhật trạng thái</label>
                   <div className="flex space-x-4">
                     <select
                       value={status}
                       onChange={(e) => setStatus(e.target.value)}
-                      className="w-full bg-gray-700/50 text-white border border-gray-600/50 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                      className="w-full bg-gray-50 text-gray-800 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                     >
                       {statusOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -133,7 +133,7 @@ const OrderDetailPage = () => {
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleStatusChange}
-                      className="px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300"
+                      className="px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
                     >
                       Lưu
                     </motion.button>
@@ -141,10 +141,10 @@ const OrderDetailPage = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-
+  
             {/* Sản phẩm */}
             <div className="mb-6">
-              <h3 className="text-lg font-medium text-gray-200 mb-4">Sản Phẩm</h3>
+              <h3 className="text-lg font-medium text-gray-700 mb-4">Sản Phẩm</h3>
               <AnimatePresence>
                 {order.items.map((item) => (
                   <motion.div
@@ -152,7 +152,7 @@ const OrderDetailPage = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="flex items-center mb-4 bg-gray-700/30 rounded-lg p-4"
+                    className="flex items-center mb-4 bg-gray-100 rounded-lg p-4"
                   >
                     <img
                       src={item.productId.thumbnail}
@@ -160,106 +160,106 @@ const OrderDetailPage = () => {
                       className="w-16 h-16 object-cover rounded-lg mr-4"
                     />
                     <div className="flex-1">
-                      <p className="text-sm font-medium">{item.productId.title}</p>
-                      <p className="text-sm text-gray-400">Số lượng: {item.quantity}</p>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-sm font-medium text-gray-800">{item.productId.title}</p>
+                      <p className="text-sm text-gray-500">Số lượng: {item.quantity}</p>
+                      <p className="text-sm text-gray-500">
                         Đơn giá: {item.productId.discountedPrice.toLocaleString("vi-VN")} VND
                       </p>
                     </div>
-                    <p className="text-sm font-medium">
+                    <p className="text-sm font-medium text-gray-800">
                       {(item.quantity * item.productId.discountedPrice).toLocaleString("vi-VN")} VND
                     </p>
                   </motion.div>
                 ))}
               </AnimatePresence>
             </div>
-
+  
             {/* Tổng tiền */}
-            <div className="flex justify-between pt-4 border-t border-gray-600/50">
-              <span className="text-lg font-semibold text-gray-200">Tổng cộng:</span>
-              <span className="text-xl font-bold text-blue-400">
+            <div className="flex justify-between pt-4 border-t border-gray-200">
+              <span className="text-lg font-semibold text-gray-700">Tổng cộng:</span>
+              <span className="text-xl font-bold text-blue-600">
                 {order.totalAmount.toLocaleString("vi-VN")} VND
               </span>
             </div>
           </motion.div>
-
+  
           {/* Thông tin khách hàng và giao hàng */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-gray-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-700/50 sticky top-4"
+            className="bg-white rounded-2xl p-8 shadow-md border border-gray-200 sticky top-4"
           >
-            <h2 className="text-2xl font-semibold mb-6 text-blue-300">Thông Tin Khách Hàng</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-gray-900">Thông Tin Khách Hàng</h2>
             <div className="space-y-4">
               <div>
-                <p className="text-sm text-gray-400">Tên khách hàng</p>
-                <p className="text-gray-200">{order.userId.name}</p>
+                <p className="text-sm text-gray-500">Tên khách hàng</p>
+                <p className="text-gray-800">{order.userId.name}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-400">Email</p>
-                <p className="text-gray-200">{order.userId.email}</p>
+                <p className="text-sm text-gray-500">Email</p>
+                <p className="text-gray-800">{order.userId.email}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-400">Số điện thoại</p>
-                <p className="text-gray-200">{order.userId.phone}</p>
+                <p className="text-sm text-gray-500">Số điện thoại</p>
+                <p className="text-gray-800">{order.userId.phone}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-400">Địa chỉ giao hàng</p>
-                <p className="text-gray-200">
+                <p className="text-sm text-gray-500">Địa chỉ giao hàng</p>
+                <p className="text-gray-800">
                   {order.shippingAddress.detail}, {order.shippingAddress.state}, {order.shippingAddress.street}, {order.shippingAddress.city}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-400">Phương thức thanh toán</p>
-                <p className="text-gray-200 flex items-center">
+                <p className="text-sm text-gray-500">Phương thức thanh toán</p>
+                <p className="text-gray-800 flex items-center">
                   {order.paymentMethod === "cod" ? (
                     <>
-                      <FaMoneyBillWave className="mr-2 text-green-400" /> Thanh toán khi nhận hàng
+                      <FaMoneyBillWave className="mr-2 text-green-500" /> Thanh toán khi nhận hàng
                     </>
                   ) : (
                     <>
-                      <FaCreditCard className="mr-2 text-blue-400" /> Thẻ tín dụng
+                      <FaCreditCard className="mr-2 text-blue-500" /> Thẻ tín dụng
                     </>
                   )}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-400">Trạng thái thanh toán</p>
-                <p className="text-gray-200 flex items-center">
+                <p className="text-sm text-gray-500">Trạng thái thanh toán</p>
+                <p className="text-gray-800 flex items-center">
                   {order.isPaid ? (
                     <>
-                      <FaCheckCircle className="mr-2 text-green-400" /> Đã thanh toán
+                      <FaCheckCircle className="mr-2 text-green-500" /> Đã thanh toán
                     </>
                   ) : (
                     <>
-                      <FaTimesCircle className="mr-2 text-red-400" /> Chưa thanh toán
+                      <FaTimesCircle className="mr-2 text-red-500" /> Chưa thanh toán
                     </>
                   )}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-400">Trạng thái giao hàng</p>
-                <p className="text-gray-200 flex items-center">
+                <p className="text-sm text-gray-500">Trạng thái giao hàng</p>
+                <p className="text-gray-800 flex items-center">
                   {order.isDelivered ? (
                     <>
-                      <FaCheckCircle className="mr-2 text-green-400" /> Đã giao
+                      <FaCheckCircle className="mr-2 text-green-500" /> Đã giao
                     </>
                   ) : (
                     <>
-                      <FaTruck className="mr-2 text-blue-400" /> Chưa giao
+                      <FaTruck className="mr-2 text-blue-500" /> Chưa giao
                     </>
                   )}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-400">Ngày đặt hàng</p>
-                <p className="text-gray-200">{new Date(order.orderDate).toLocaleString("vi-VN")}</p>
+                <p className="text-sm text-gray-500">Ngày đặt hàng</p>
+                <p className="text-gray-800">{new Date(order.orderDate).toLocaleString("vi-VN")}</p>
               </div>
               {order.shippedDate && (
                 <div>
-                  <p className="text-sm text-gray-400">Ngày giao hàng</p>
-                  <p className="text-gray-200">{new Date(order.shippedDate).toLocaleString("vi-VN")}</p>
+                  <p className="text-sm text-gray-500">Ngày giao hàng</p>
+                  <p className="text-gray-800">{new Date(order.shippedDate).toLocaleString("vi-VN")}</p>
                 </div>
               )}
             </div>

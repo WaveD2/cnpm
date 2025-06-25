@@ -16,7 +16,6 @@ const pendingRequests = new Map();
 
 apiClient.interceptors.response.use(
   (response) => {
-    // Remove request from pending list on success
     const requestKey = `${response.config.method}:${response.config.url}`;
     pendingRequests.delete(requestKey);
     return response;

@@ -78,21 +78,21 @@ const OrderDetailPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-gray-900 min-h-screen text-white py-12"
+      className="min-h-screen bg-white text-gray-800 py-12"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center">Chi tiết đơn hàng</h1>
-
+        <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-900">Chi tiết đơn hàng</h1>
+  
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Thông tin đơn hàng */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-2 bg-gray-800 rounded-xl p-6 shadow-md"
+            className="lg:col-span-2 bg-gray-100 rounded-xl p-6 shadow-md"
           >
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Mã đơn hàng: {order._id}</h2>
+              <h2 className="text-xl font-semibold text-gray-800">Mã đơn hàng: {order._id}</h2>
               {order.status === "pending" && (
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -105,16 +105,16 @@ const OrderDetailPage = () => {
                 </motion.button>
               )}
             </div>
-            <p className="text-sm text-gray-400 mb-2">
+            <p className="text-sm text-gray-500 mb-2">
               Ngày đặt: {new Date(order.createdAt).toLocaleDateString("vi-VN")}
             </p>
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-gray-500 mb-4">
               Trạng thái: {order.status === "pending" ? "Đang xử lý" :
                           order.status === "shipped" ? "Đang giao" :
                           order.status === "delivered" ? "Đã giao" :
                           order.status === "cancelled" ? "Đã hủy" : "Hoàn thành"}
             </p>
-            <h3 className="text-lg font-semibold mb-2">Sản phẩm</h3>
+            <h3 className="text-lg font-semibold mb-2 text-gray-700">Sản phẩm</h3>
             <AnimatePresence>
               {order.items.map((item) => (
                 <motion.div
@@ -122,7 +122,7 @@ const OrderDetailPage = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="flex items-center border-b border-gray-600 py-4"
+                  className="flex items-center border-b border-gray-200 py-4"
                 >
                   <img
                     src={item.productId?.thumbnail}
@@ -130,52 +130,52 @@ const OrderDetailPage = () => {
                     className="w-16 h-16 object-cover rounded-md mr-4"
                   />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">{item.name}</p>
-                    <p className="text-sm text-gray-400">Số lượng: {item.quantity}</p>
-                    <p className="text-sm text-blue-400">{item.price.toLocaleString("vi-VN")} VND</p>
+                    <p className="text-sm font-medium text-gray-800">{item.name}</p>
+                    <p className="text-sm text-gray-500">Số lượng: {item.quantity}</p>
+                    <p className="text-sm text-blue-600">{item.price.toLocaleString("vi-VN")} VND</p>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           </motion.div>
-
+  
           {/* Thông tin giao hàng và thanh toán */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-gray-800 rounded-xl p-6 shadow-md sticky top-4"
+            className="bg-gray-100 rounded-xl p-6 shadow-md sticky top-4"
           >
-            <h2 className="text-xl font-semibold mb-4">Thông tin giao hàng</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">Thông tin giao hàng</h2>
             <div className="flex items-start mb-4">
-              <FaMapMarkerAlt className="h-5 w-5 mr-2 text-blue-400" />
+              <FaMapMarkerAlt className="h-5 w-5 mr-2 text-blue-600" />
               <div>
-                <p className="text-sm">{order.shippingAddress.street}, {order.shippingAddress.city}, {order.shippingAddress.state}</p>
+                <p className="text-sm text-gray-800">{order.shippingAddress.street}, {order.shippingAddress.city}, {order.shippingAddress.state}</p>
                 {order.shippingAddress.detail && (
-                  <p className="text-sm text-gray-400">{order.shippingAddress.detail}</p>
+                  <p className="text-sm text-gray-500">{order.shippingAddress.detail}</p>
                 )}
               </div>
             </div>
-            <h2 className="text-xl font-semibold mb-4">Phương thức thanh toán</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">Phương thức thanh toán</h2>
             <div className="flex items-center mb-4">
               {order.paymentMethod === "cod" ? (
-                <FaMoneyBillWave className="h-5 w-5 mr-2 text-blue-400" />
+                <FaMoneyBillWave className="h-5 w-5 mr-2 text-blue-600" />
               ) : (
-                <FaCreditCard className="h-5 w-5 mr-2 text-blue-400" />
+                <FaCreditCard className="h-5 w-5 mr-2 text-blue-600" />
               )}
-              <p className="text-sm">
+              <p className="text-sm text-gray-800">
                 {order.paymentMethod === "cod" ? "Thanh toán khi nhận hàng" : "Thẻ tín dụng"}
               </p>
             </div>
-            <div className="flex justify-between pt-4 border-t border-gray-600">
-              <span className="font-semibold">Tổng cộng:</span>
-              <span className="font-bold text-blue-400">
+            <div className="flex justify-between pt-4 border-t border-gray-200">
+              <span className="font-semibold text-gray-700">Tổng cộng:</span>
+              <span className="font-bold text-blue-600">
                 {order.totalAmount.toLocaleString("vi-VN")} VND
               </span>
             </div>
           </motion.div>
         </div>
-
+  
         <div className="mt-8 text-center">
           <Link to="/orders">
             <motion.button

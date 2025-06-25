@@ -165,7 +165,7 @@ export default function ManageUsers() {
           password: createFormData.password,
           role: createFormData.role,
           phone: createFormData.phone,
-          avatar: avatar[0],
+          avatar: avatar,
           isActive: createFormData.isActive
         }
       );
@@ -538,7 +538,7 @@ export default function ManageUsers() {
                     </div>
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-sm font-semibold text-gray-600 mb-1">Avatar URL</label>
+                    <label className="text-sm font-semibold text-gray-600 mb-1">Avatar</label>
                     <ImageUpload maxImages={1} singleImage={true} setImages={setAvatar}/> 
                   </div>
                 </div>

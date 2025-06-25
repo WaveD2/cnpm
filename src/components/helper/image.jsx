@@ -1,19 +1,18 @@
-import { useState, useRef } from 'react';
-import { Upload, X, Image as ImageIcon } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Upload, X  } from 'lucide-react';
 import { FaSpinner } from 'react-icons/fa';
 
-const ImageUpload = ({ maxImages = 5, singleImage = false, setImages, imagesDefault = [] }) => {
-  const [internalImages, setInternalImages] = useState(imagesDefault);
+const ImageUpload = ({ maxImages = 5, singleImage = false, setImages, images = '' }) => {
+  const [internalImages, setInternalImages] = useState(singleImage ? '' : []);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef(null);
-  console.log("internalImages",internalImages);
-  console.log("maxImages",maxImages);
-  console.log("singleImage",singleImage);
 
-  console.log("isLoading",isLoading);
-  
-  
+  // Sync internalImages with external images prop
+  useEffect(() => {
+    setInternalImages(singleImage ? images || '' : images || []);
+  }, [images, singleImage]);
+
   const uploadImage = async (file) => {
     const formData = new FormData();
     formData.append('images', file);
@@ -50,14 +49,13 @@ const ImageUpload = ({ maxImages = 5, singleImage = false, setImages, imagesDefa
     setError('');
 
     try {
-      const uploadPromises = files.map(file => uploadImage(file));
-      const uploadedUrls = await Promise.all(uploadPromises);
+      const uploadedUrls = await Promise.all(files.map(file => uploadImage(file)));
 
       let newImages;
       if (singleImage) {
-        newImages = uploadedUrls;
+        newImages = uploadedUrls[0] || ''; // Single URL for thumbnail
       } else {
-        newImages = [...internalImages, ...uploadedUrls];
+        newImages = [...internalImages, ...uploadedUrls]; // Array for multiple images
       }
 
       setInternalImages(newImages);
@@ -73,21 +71,26 @@ const ImageUpload = ({ maxImages = 5, singleImage = false, setImages, imagesDefa
   };
 
   const removeImage = (index) => {
-    const newImages = internalImages.filter((_, i) => i !== index);
-    setInternalImages(newImages);
-    setImages(newImages);
+    if (singleImage) {
+      setInternalImages('');
+      setImages('');
+    } else {
+      const newImages = internalImages.filter((_, i) => i !== index);
+      setInternalImages(newImages);
+      setImages(newImages);
+    }
     setError('');
   };
 
   return (
     <div className="w-full max-w-lg p-6 bg-white rounded-xl shadow-lg">
-      <h3 className="text-xl font-bold mb-4 text-gray-900">
+      <h3 className="text-xl font-bold mb-4 text-gray-800">
         {singleImage ? 'Tải lên hình ảnh' : `Tải lên hình ảnh (Tối đa ${maxImages})`}
       </h3>
 
       <div className="relative">
         <label
-          htmlFor="file-upload"
+          htmlFor={`file-upload-${singleImage ? 'thumbnail' : 'images'}`}
           className={`flex items-center justify-center w-full p-4 border-2 border-dashed rounded-lg transition-all duration-300 ${
             isLoading || (!singleImage && internalImages.length >= maxImages)
               ? 'border-gray-300 bg-gray-100 cursor-not-allowed'
@@ -95,7 +98,7 @@ const ImageUpload = ({ maxImages = 5, singleImage = false, setImages, imagesDefa
           }`}
         >
           <input
-            id="file-upload"
+            id={`file-upload-${singleImage ? 'thumbnail' : 'images'}`}
             type="file"
             accept="image/*"
             multiple={!singleImage}
@@ -124,36 +127,32 @@ const ImageUpload = ({ maxImages = 5, singleImage = false, setImages, imagesDefa
         </p>
       )}
 
-      {internalImages.length > 0 && (
+      {internalImages && (singleImage ? internalImages : internalImages.length > 0) && (
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {internalImages.map((url, index) => (
-            <div
-              key={index}
-              className="relative group rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-            >
-              {url ? (
+          {(singleImage ? [internalImages] : internalImages).map((url, index) =>
+            url ? (
+              <div
+                key={index}
+                className="relative group rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+              >
                 <img
                   src={url}
                   alt={`Hình ảnh ${index + 1}`}
                   className="w-full h-32 object-cover"
                 />
-              ) : (
-                <div className="w-full h-32 bg-gray-100 flex items-center justify-center">
-                  <ImageIcon className="w-8 h-8 text-gray-400" />
-                </div>
-              )}
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  removeImage(index);
-                }}
-                className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                title="Xóa hình ảnh"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-          ))}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    removeImage(index);
+                  }}
+                  className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  title="Xóa hình ảnh"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            ) : null
+          )}
         </div>
       )}
     </div>
